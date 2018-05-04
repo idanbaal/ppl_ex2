@@ -2,9 +2,9 @@ from math import sqrt
 
 
 class ComplexNum:
-    def __init__(self, a, b):
-        self.a = a
-        self.b = b
+    def __init__(self, a, b=0.0):
+        self.a = float(a)
+        self.b = float(b)
 
     def re(self):
         return self.a
@@ -47,4 +47,7 @@ class ComplexNum:
 
     def __repr__(self):
         sign = "+" if self.im() >= 0 else "-"
-        return "%d %s %di" % (self.re(), sign, abs(self.im()))
+        if self.re() == 0:
+            return "%gi" % self.im()
+        else:
+            return "%g %s %gi" % (self.re(), sign, abs(self.im()))
