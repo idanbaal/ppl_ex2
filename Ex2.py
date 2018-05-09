@@ -1,44 +1,58 @@
-class Person:
+from math import sqrt
 
-    def __init__(self, first, last):
-        self.firstname = first
-        self.lastname = last
-
-    def Name(self):
-        return self.firstname + " " + self.lastname
+###Question 1###
 
 
-class Employee(Person):
+class ComplexNum:
+    def __init__(self, a, b=0.0):
+        self.a = float(a)
+        self.b = float(b)
 
-    def __init__(self, first, last, staffnum):
-        Person.__init__(self, first, last)
-        self.staffnumber = staffnum
+    def re(self):
+        return self.a
 
-    def GetEmployee(self):
-        return self.Name() + ", " + self.staffnumber
+    def im(self):
+        return self.b
 
+    def tuple_to(self):
+        return self.re(), self.im()
 
-class Engineer(Employee):
+    def abs(self):
+        return sqrt((self * self.conjugate()).re())
 
-    def __init__(self, first, last, staffnum, profession):
-        Employee.__init__(self, first, last, staffnum)
-        self.profession = profession
+    def conjugate(self):
+        return ComplexNum(self.re(), -self.im())
 
-    def GetEngineer(self):
-        return self.Name() + ", " + self.profession
+    def __mul__(self, other):
+        if isinstance(self, other.__class__):
+            return ComplexNum(self.re() * other.re() - self.im() * other.im(),
+                              self.re() * other.im() + self.im() * other.re())
+        else:
+            raise TypeError("Complex multiplication only defined for Complex Numbers")
 
+    def __neg__(self):
+        return ComplexNum(-self.re(), -self.im())
 
-class Cat():
+    def __add__(self, other):
+        if isinstance(self, other.__class__):
+            return ComplexNum(self.re() + other.re(), self.im() + other.im())
 
-    def __init__(self, name):
-        self.name = name
+    def __sub__(self, other):
+        if isinstance(self, other.__class__):
+            return self + -other
 
+    def __eq__(self, other):
+        if isinstance(self, other.__class__):
+            return self.im() == other.im() and self.re() == other.re()
+        else:
+            return False
 
-c = Cat("Mizi")
-
-x = Person("Marge", "Simpson")
-y = Employee("Homer", "Simpson", "1007")
-z = Engineer("Homer", "Simpson", "1007", "Software")
+    def __repr__(self):
+        sign = "+" if self.im() >= 0 else "-"
+        if self.re() == 0:
+            return "%gi" % self.im()
+        else:
+            return "%g %s %gi" % (self.re(), sign, abs(self.im()))
 
 
 ###Question 2###
@@ -84,7 +98,6 @@ def numSubclassPPL(class1, classInfo):
     return 0
 
 
-# print type(y)
 
 ###Question 3###
 
